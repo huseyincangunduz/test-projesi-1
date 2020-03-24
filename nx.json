@@ -1,0 +1,22 @@
+{
+  "npmScope": "testworkspace",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "testapp": {
+      "tags": []
+    },
+    "testapp-e2e": {
+      "tags": [],
+      "implicitDependencies": ["testapp"]
+    }
+  }
+}
