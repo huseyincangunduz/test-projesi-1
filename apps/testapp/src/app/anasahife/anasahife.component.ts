@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, RequiredValidator } from '@angular/forms';
-import { InitialFied, InputField, Reflector, RootSectionField, SectionField, EmailValidator } from "@morphosium/reform/public/module/main"
+import {  FormControl, FormGroup, RequiredValidator } from '@angular/forms';
+import { InitialFied, InputField, Reflector, RootSectionField, SectionField, NotEmpty, EmailValidator, MaximumNumber, MinimumNumber, EventObserve } from "@morphosium/reform"
 
 @Component({
   selector: 'testworkspace-anasahife',
@@ -12,6 +12,7 @@ export class AnasahifeComponent implements OnInit, AfterViewInit {
   @ViewChild("sampleFormArea") sampleFormArea: ElementRef<HTMLDivElement>;
 
   reflector: Reflector;
+  value: any;
 
   constructor() {
     this.reflector = new Reflector(new RootSectionField({
@@ -21,15 +22,29 @@ export class AnasahifeComponent implements OnInit, AfterViewInit {
           label: "sdsa",
           inputType: "text",
           validations: [
-           new EmailValidator()
+           new NotEmpty(), new EmailValidator(),
+          ]
+        }),
+        new InputField({
+          name: "test2",
+          label: "Test 2 input",
+          inputType: "number",
+          validations: [
+            new MaximumNumber(6), new MinimumNumber(0)
           ]
         })
+
       ]
     }))
   } 
 
   ngAfterViewInit(): void {
     this.reflector.expandThere(this.sampleFormArea.nativeElement);
+    this.reflector.onValueChange.subscribe(
+      new EventObserve(() => {
+        this.value = JSON.stringify(this.reflector.getValue());
+      })
+    )
     this.reflector.setErrorMessageVisibility(true);
   }
 
