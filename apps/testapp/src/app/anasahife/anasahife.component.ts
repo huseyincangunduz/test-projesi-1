@@ -1,20 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { InitialFied, InputField, Reflector, RootSectionField, SectionField } from "@morphosium/reform"
 
 @Component({
   selector: 'testworkspace-anasahife',
   templateUrl: './anasahife.component.html',
   styleUrls: ['./anasahife.component.scss']
 })
-export class AnasahifeComponent implements OnInit {
+export class AnasahifeComponent implements OnInit, AfterViewInit {
   peterState = new FormControl('');
-  checkboxes = new FormGroup({
-    val1 : new FormControl(),
-    val2 : new FormControl(),
-    val3 : new FormControl()
-  })
+  @ViewChild("sampleFormArea") sampleFormArea: ElementRef<HTMLDivElement>;
 
-  constructor() { }
+  reflector: Reflector;
+
+  constructor() {
+    this.reflector = new Reflector(new RootSectionField({
+      content: [
+        new InputField({
+          name: "test",
+          label: "test",
+          inputType: "text"
+        })
+      ]
+    }))
+  } 
+
+  ngAfterViewInit(): void {
+    this.reflector.expandThere(this.sampleFormArea.nativeElement);
+  }
 
   ngOnInit(): void {
   }
@@ -22,8 +35,12 @@ export class AnasahifeComponent implements OnInit {
   onSubmit() {
     this.peterState.setValue('still');
   }
- 
- temizle(){
-   this.peterState.reset();
+
+  temizle() {
+    this.peterState.reset();
+  }
+
+  ngOnViewInit() {
+
   }
 }
