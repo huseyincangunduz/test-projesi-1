@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { InitialFied, InputField, Reflector, RootSectionField, SectionField } from "@morphosium/reform"
+import { FormControl, FormGroup, RequiredValidator } from '@angular/forms';
+import { InitialFied, InputField, Reflector, RootSectionField, SectionField, EmailValidator } from "@morphosium/reform/public/module/main"
 
 @Component({
   selector: 'testworkspace-anasahife',
@@ -18,8 +18,11 @@ export class AnasahifeComponent implements OnInit, AfterViewInit {
       content: [
         new InputField({
           name: "test",
-          label: "test",
-          inputType: "text"
+          label: "sdsa",
+          inputType: "text",
+          validations: [
+           new EmailValidator()
+          ]
         })
       ]
     }))
@@ -27,6 +30,7 @@ export class AnasahifeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.reflector.expandThere(this.sampleFormArea.nativeElement);
+    this.reflector.setErrorMessageVisibility(true);
   }
 
   ngOnInit(): void {
